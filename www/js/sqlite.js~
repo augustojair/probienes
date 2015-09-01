@@ -1,0 +1,40 @@
+// Cuando el Dispositivo este listo...
+document.addEventListener("deviceready", onDeviceReady, false);
+var db = window.sqlitePlugin.openDatabase("Dummy_DB", "1.0", "Just a Dummy DB", 200000);
+
+function onDeviceReady(){
+    db.transaction(populateDB, errorCB, successCB);
+}
+
+// Ejecutar Consulta SQL
+function populateDB(tx) {
+    tx.executeSql('DROP TABLE Bienes');
+    tx.executeSql('CREATE TABLE IF NOT EXISTS Bienes (id INTEGER PRIMARY KEY AUTOINCREMENT, Marca TEXT NOT NULL, Modelo TEXT NOT NULL, Version TEXT, Precio FLOAT)');
+    tx.executeSql('INSERT INTO Bienes(Marca,Modelo,Version,Precio) VALUES ("Chevrolet", "S10", "4X4", 111)');
+}
+
+// Si salta error...
+function errorCB(err) {
+    alert("Error processing SQL: "+err.code);
+}
+
+// Si todo salió bien...
+function successCB() {
+    alert("success!");
+    db.transaction(queryDB,errorCB);
+}
+
+// Buscar en la base de datos.
+function queryDB(tx){
+    tx.executeSql('SELECT * FROM Bienes',[],querySuccess,errorCB);
+}
+
+function querySuccess(tx,result){
+    $('#SoccerPlayerList').empty();
+    $.each(result.rows,function(index){
+        var row = result.rows.item(index);
+        $('#SoccerPlayerList').append('<tr><td><strong>'+row['Marca']+'</strong></td><td>'+row['Modelo']+'</td><td>'+row['Versión']+'</td><td><strong>'+row['Precio']+'</strong></td></tr>');
+    });
+
+    $('#SoccerPlayerList').listview();
+}

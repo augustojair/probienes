@@ -1,0 +1,57 @@
+var arrMarca = [];
+var arrModelo = [];
+var arrVersion = [];
+var arrPrecio = [];
+
+function guardar(){
+    // Reseteamos el almacenamiento
+    localStorage.clear();
+    // Guardamos el nombre y apellido en la base de datos del navegador
+    for(var i = arrMarca.length;i>=0;i--){
+        localStorage['arrMarca']=JSON.stringify(arrMarca);
+        localStorage['arrModelo']=JSON.stringify(arrModelo);
+        localStorage['arrVersion']=JSON.stringify(arrVersion);
+        localStorage['arrPrecio']=JSON.stringify(arrPrecio);
+        //localStorage.setItem("nombre", document.getElementById("nombre").value);
+    }
+}
+
+function mostrarDatos(){
+    // Leemos los valores de las variables del navegador
+    var tabla = "";
+    var storedMarca=JSON.parse(localStorage['arrMarca']);
+    var storedModelo=JSON.parse(localStorage['arrModelo']);
+    var storedVersion=JSON.parse(localStorage['arrVersion']);
+    var storedPrecio=JSON.parse(localStorage['arrPrecio']);
+    for(var i = arrMarca.length;i>=0;i--){
+        tabla = tabla + "<tr><td><strong>" + arrMarca[i] + "</strong></td><td>" + arrModelo[i] + "</td><td>+" + arrVersion[i] + "</td><td><strong>$" + arrPrecio[i] + "</strong></td></tr>";
+    }
+}
+
+var mysql = require('mysql');
+var connection = mysql.createConnection({
+   host: 'db4free.net',
+   user: 'probienes123',
+   password: 'probienes123',
+   database: 'bienes',
+   port: 3306
+});
+
+connection.connect(function(error){
+    var query = connection.query('SELECT * FROM bienes WHERE 1', [1], function(error, result){
+        if(error){
+            throw error;
+        }
+        else{
+           var resultado = result;
+           for(var i = resultado.length;i>=0;i--){
+               arrMarca.push(resultado[i].marca);
+               arrModelo.push(resultado[i].modelo);
+               arrVersion.push(resultado[i].version);
+               arrPrecio.push(resultado[i].precio);
+           }
+        }
+    }
+   });
+
+connection.end();
