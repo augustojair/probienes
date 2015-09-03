@@ -28,6 +28,7 @@
             // Funcion al iniciar la app
             function appStart(){
                 console.log("No es necesario actualizar");
+                actualizar();
             }
 
             // Activa la función de "Volver dentro de la App"            

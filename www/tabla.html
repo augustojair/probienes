@@ -1,0 +1,37 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><script type="text/javascript">
+	$(document).ready(function() {
+        $('#tabla').dataTable( {
+            "bPaginate": false,
+            "bInfo": false,
+            "oLanguage": {
+                "sSearch": "Buscar:",
+            },
+        } );
+    } );
+</script>
+</head><body><div data-role="content" style="padding:0;">
+    <div id="listado" style="width:100%;height:100%;">
+        <div class="table-responsive">
+            <table id="tabla" class="display dataTable" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Marca</th>
+                        <th>Modelo</th>
+                        <th>Versión</th>
+                        <th>Precio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>CHEVROLET</strong></td>
+                        <td>S10</td>
+                        <td>4X2 FULL</td>
+                        <td><strong>$350000</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body></html>
